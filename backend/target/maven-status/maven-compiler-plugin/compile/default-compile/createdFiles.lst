@@ -1,0 +1,12 @@
+project_management\model\Projekat.class
+project_management\controller\GenericController.class
+project_management\App.class
+project_management\model\Zadatak.class
+project_management\service\GenericService.class
+project_management\controller\CorsConfig.class
+project_management\controller\ZadatakController.class
+project_management\repository\ProjekatRepository.class
+project_management\controller\ProjekatController.class
+project_management\repository\ZadatakRepository.class
+project_management\service\ZadatakService.class
+project_management\service\ProjekatService.class

@@ -1,0 +1,24 @@
+<mat-toolbar color="primary" class="navbar">
+  <span class="naslov">Upravljanje Projektima</span>
+  <span class="spacer"></span>
+  <span class="user-greeting">Dobrodosao, admin</span>
+  <button mat-icon-button (click)="logout()" title="Odjavi se">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="container">
+  <div class="header-actions">
+    <h2>Projekti</h2>
+</div>
+
+<div class="projekti-grid">
+    @for (projekat of projekti(); track projekat.id) {
+      <mat-card class="project-card" [routerLink]="['/projekti', projekat.id]">
+        <mat-card-header>
+          <mat-card-title>{{ projekat.naziv }}</mat-card-title>
+          <mat-card-subtitle>ID: #{{ projekat.id }}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    }
+</div>

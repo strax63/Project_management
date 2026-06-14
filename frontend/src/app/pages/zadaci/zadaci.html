@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="header-actions">
+    <div class="title-section">
+      <button mat-icon-button routerLink="/projekti" title="Nazad na projekte">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2>Zadaci na projektu</h2>
+    </div>
+    <button mat-flat-button color="accent" (click)="otvoriDodavanje()">
+      <mat-icon>add</mat-icon> Novi Zadatak
+    </button>
+  </div>
+  @if (formVisible()) {
+  <app-zadatak-forma
+    [zadatak]="selectedZadatak()"
+    [mode]="formMode()"
+    [idProjekta]="projektId()"
+    (sacuvaj)="onSacuvaj($event)"
+    (obrisi)="onObrisi($event)"
+    (otkazi)="zatvoriFormu()">
+  </app-zadatak-forma>
+  }
+
+  <div class="sort-actions">
+  <span>Sortiraj:</span>
+
+  <button mat-stroked-button (click)="sortAscPrioritet()">
+    <mat-icon>arrow_upward</mat-icon>
+    Prioritet
+  </button>
+
+  <button mat-stroked-button (click)="sortDescPrioritet()">
+    <mat-icon>arrow_downward</mat-icon>
+    Prioritet
+  </button>
+
+  <button mat-stroked-button (click)="sortAscStatus()">
+    <mat-icon>arrow_upward</mat-icon>
+    Status
+  </button>
+
+  <button mat-stroked-button (click)="sortDescStatus()">
+    <mat-icon>arrow_downward</mat-icon>
+    Status
+  </button>
+  </div>
+
+  @if (zadaci().length > 0) {
+    <div class="table-container mat-elevation-z2">
+      <table mat-table [dataSource]="zadaci()" class="tasks-table">
+        
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let zadatak"> #{{zadatak.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="opis">
+          <th mat-header-cell *matHeaderCellDef> Opis </th>
+          <td mat-cell *matCellDef="let zadatak" class="task-desc"> {{zadatak.opis_zadatka}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Status </th>
+          <td mat-cell *matCellDef="let zadatak">
+            <span class="badge status-{{zadatak.status}}">
+              {{ getStatusText(zadatak.status_zadatka) }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="prioritet">
+          <th mat-header-cell *matHeaderCellDef> Prioritet </th>
+          <td mat-cell *matCellDef="let zadatak">
+            <span>
+              {{ getPrioritetText(zadatak.prioritet_zadatka) }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="akcije">
+          <th mat-header-cell *matHeaderCellDef> Akcije </th>
+          <td mat-cell *matCellDef="let zadatak">
+            <button mat-icon-button color="primary" title="Izmeni" (click)="otvoriIzmenu(zadatak)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" title="Obriši" (click)="otvoriUklanjanje(zadatak)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['id', 'opis', 'status', 'prioritet', 'akcije']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id', 'opis', 'status', 'prioritet', 'akcije'];"></tr>
+      </table>
+    </div>
+  } @else {
+    <mat-card class="empty-state">
+      <mat-card-content>
+        <mat-icon>assignment_turned_in</mat-icon>
+        <p>Ovaj projekat trenutno nema dodeljenih zadataka.</p>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

@@ -1,0 +1,42 @@
+
+<div class="container">
+  <div class="header-actions">
+    <button mat-button color="primary" routerLink="/projekti">
+      <mat-icon>arrow_back</mat-icon> Nazad na projekte
+    </button>
+  </div>
+
+  @if (projekat()) {
+    <mat-card class="details-card">
+      <mat-card-header>
+        <mat-card-title class="details-title">{{ projekat()!.naziv }}</mat-card-title>
+        <mat-card-subtitle>ID projekta: #{{ projekat()!.id }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content class="details-content">
+        <div class="info-section">
+          <h3>Opis projekta</h3>
+          <p class="description-text">{{ projekat()!.opis_projekta }}</p>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="meta-section">
+          <div class="meta-item">
+            <mat-icon color="primary">calendar_today</mat-icon>
+            <div class="meta-text">
+              <span class="meta-label">Rok realizacije</span>
+              <span class="meta-value">{{ projekat()!.rok_realizacije }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-raised-button color="primary" [routerLink]="['/projekti', projekat()!.id, 'zadaci']">
+        <mat-icon>assignment</mat-icon>
+        Pogledaj zadatke
+        </button>
+    </mat-card-actions>
+    </mat-card>
+    }

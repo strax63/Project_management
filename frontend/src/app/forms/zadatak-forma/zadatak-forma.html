@@ -1,0 +1,75 @@
+<div class="form-panel">
+  <div class="form-header">
+    <mat-icon class="form-icon">
+      @if (mode() === 'add') { add_task }
+      @else if (mode() === 'edit') { edit }
+      @else { delete_forever }
+    </mat-icon>
+    <h3>
+      @if (mode() === 'add') { Novi zadatak }
+      @else if (mode() === 'edit') { Izmena zadatka }
+      @else { Brisanje zadatka }
+    </h3>
+  </div>
+
+  @if (mode() === 'delete') {
+    <div class="delete-potvrda">
+      <mat-icon class="upozorenje-ikonica">warning_amber</mat-icon>
+      <p>Da li si siguran da želiš da obrišeš zadatak:</p>
+
+      <blockquote>{{ zadatak()?.opis_zadatka }}</blockquote>
+      <div class="form-actions">
+        <button mat-stroked-button type="button" (click)="onOtkazi()">
+          <mat-icon>close</mat-icon> Otkaži
+        </button>
+        <button mat-flat-button color="warn" type="button" (click)="onObrisi()">
+          <mat-icon>delete_forever</mat-icon> Obriši
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="form-fields" [formGroup]="forma">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Opis zadatka</mat-label>
+        <textarea matInput rows="3" formControlName="opis_zadatka" placeholder="Unesite opis zadatka..."></textarea>
+        @if (forma.get('opis_zadatka')?.hasError('required')) {
+          <mat-error>Opis je obavezan</mat-error>
+        }
+        @if (forma.get('opis_zadatka')?.hasError('minlength')) {
+          <mat-error>Minimalno 3 karaktera</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="row-fields">
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status_zadatka">
+            <mat-option [value]="0">Novo</mat-option>
+            <mat-option [value]="1">U toku</mat-option>
+            <mat-option [value]="2">Završeno</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Prioritet</mat-label>
+          <mat-select formControlName="prioritet_zadatka">
+            <mat-option [value]="0">Nizak</mat-option>
+            <mat-option [value]="1">Srednji</mat-option>
+            <mat-option [value]="2">Visok</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <button mat-stroked-button type="button" (click)="onOtkazi()">
+          <mat-icon>close</mat-icon> Otkaži
+        </button>
+        <button mat-flat-button color="primary" type="button" (click)="onSacuvaj()" [disabled]="forma.invalid">
+          <mat-icon>save</mat-icon> Sačuvaj
+        </button>
+      </div>
+
+    </div>
+  }
+</div>
